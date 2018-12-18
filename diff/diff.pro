@@ -42,3 +42,6 @@ LIBS += -l stdc++fs
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    icon_buttom.qrc

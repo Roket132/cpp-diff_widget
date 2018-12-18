@@ -13,7 +13,20 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/icons/icon_buttom_reload.png</normaloff>:/icons/icons/icon_buttom_reload.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QListWidget" name="listMainFile"/>
+    </item>
+    <item>
+     <widget class="QListView" name="listView"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -25,22 +38,41 @@
    </property>
    <widget class="QMenu" name="menudfg">
     <property name="title">
-     <string>dfg</string>
+     <string>Файл</string>
     </property>
+    <addaction name="Reload"/>
    </widget>
    <addaction name="menudfg"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
+   <addaction name="Reload"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <action name="Reload">
+   <property name="icon">
+    <iconset resource="icon_buttom.qrc">
+     <normaloff>:/icons/reload.png</normaloff>:/icons/reload.png</iconset>
+   </property>
+   <property name="text">
+    <string>Обновить</string>
+   </property>
+   <property name="toolTip">
+    <string>Обновить</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon_buttom.qrc"/>
+ </resources>
  <connections/>
 </ui>

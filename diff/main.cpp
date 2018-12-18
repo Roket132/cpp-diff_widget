@@ -7,28 +7,17 @@
 #include <sha256.h>
 
 namespace fs = std::experimental::filesystem;
-
-
-
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-    /*QApplication a(argc, argv);
+    QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    */
 
-    string input = "grape";
-    string output1 = sha256(input);
+    QStringList List;
+    List << "1" << "two" << "there/ fwe ";
+    w.add_Items_Main(List);
 
-    fs::path path = "/home/dmitry/QtProject/diff_widget/build-diff-Desktop_Qt_5_12_0_GCC_64bit-Debug/txt";
-
-    std::ifstream in(path, std::ios::in);
-
-
-    cout << "sha256 = " << sha256_file(path) << endl;
-
-
-    //return a.exec();
+    return a.exec();
 }

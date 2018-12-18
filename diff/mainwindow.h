@@ -13,7 +13,15 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
+
+    void add_Items_Main(QStringList name);
+
+private slots:
+    void onActiontestTriggered();
+
+    void on_Reload_triggered();
 
 private:
     Ui::MainWindow *ui;

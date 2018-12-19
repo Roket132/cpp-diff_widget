@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>icons/reload.png</file>
         <file>icons/file.png</file>
+        <file>icons/gtk-directory.png</file>
     </qresource>
 </RCC>

@@ -40,6 +40,7 @@
     <property name="title">
      <string>Файл</string>
     </property>
+    <addaction name="Open"/>
     <addaction name="Reload"/>
    </widget>
    <addaction name="menudfg"/>
@@ -53,8 +54,9 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
+   <addaction name="Open"/>
    <addaction name="Reload"/>
   </widget>
   <action name="Reload">
@@ -67,6 +69,18 @@
    </property>
    <property name="toolTip">
     <string>Обновить</string>
+   </property>
+  </action>
+  <action name="Open">
+   <property name="icon">
+    <iconset resource="icon_buttom.qrc">
+     <normaloff>:/icons/gtk-directory.png</normaloff>:/icons/gtk-directory.png</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть</string>
+   </property>
+   <property name="toolTip">
+    <string>Открыть</string>
    </property>
   </action>
  </widget>

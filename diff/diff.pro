@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    sha256.cpp
+    sha256.cpp \
+    reader.cpp
 
 HEADERS += \
         mainwindow.h \
-    sha256.h
+    sha256.h \
+    reader.h
 
 FORMS += \
         mainwindow.ui

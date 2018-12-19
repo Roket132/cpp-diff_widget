@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+static std::string DIRECTORY_NAME = "";
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,6 +24,8 @@ private slots:
     void onActiontestTriggered();
 
     void on_Reload_triggered();
+
+    void on_Open_triggered();
 
 private:
     Ui::MainWindow *ui;

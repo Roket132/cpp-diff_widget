@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "reader.h"
 #include <QApplication>
 #include <iostream>
 #include <fstream>
@@ -14,10 +15,6 @@ int main(int argc, char* argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-
-    QStringList List;
-    List << "1" << "two" << "there/ fwe ";
-    w.add_Items_Main(List);
 
     return a.exec();
 }

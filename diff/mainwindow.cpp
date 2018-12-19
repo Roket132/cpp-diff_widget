@@ -31,10 +31,6 @@ void MainWindow::add_Items_Main(QStringList list_Name)
 
 void MainWindow::on_Reload_triggered()
 {
-    if (ui->listMainFile->count() > 0) {
-        ui->listMainFile->item(0)->setSelected(true);
-        ui->listMainFile->item(0)->setSelected(false);
-    }
     if (DIRECTORY_NAME != "") {
         add_Items_Main(read(DIRECTORY_NAME));
     }
@@ -45,7 +41,15 @@ void MainWindow::onActiontestTriggered(){}
 
 void MainWindow::on_Open_triggered()
 {
-    QString str = QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
+    QString str;
+    try {
+        str = QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
+    } catch (...) {
+        str = QString::fromStdString(DIRECTORY_NAME);
+    }
+
     DIRECTORY_NAME = str.toStdString();
-    add_Items_Main(read(DIRECTORY_NAME));
+    if (DIRECTORY_NAME != "") {
+        add_Items_Main(read(DIRECTORY_NAME));
+    }
 }

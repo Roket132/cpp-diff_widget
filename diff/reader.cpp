@@ -1,4 +1,7 @@
 #include "reader.h"
+#include "mainwindow.h"
+#include "file_data.h"
+#include "sha256.h"
 
 bits::bits() :x(0), y(0), z(0) {}
 
@@ -14,11 +17,16 @@ bool operator<(bits const& a, bits const& b) {
 std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory) {
     std::map<std::pair<size_t, bits>, std::vector<fs::path>> input;
 
+    file_data& file_data = file_data.get_instance();
+    file_data._SHA256.clear();
+
     for (const auto& entry : fs::directory_iterator(directory)) {
         fs::path path = entry.path();
         if (fs::is_directory(path)) {
             continue;
         }
+
+        file_data._SHA256[path] = sha256_file(path);
         size_t _size = fs::file_size(path);
 
         std::ifstream in(path, std::ios::in | std::ios::binary);
@@ -44,12 +52,16 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
 QStringList read(std::string directory) {
     std::map<std::pair<size_t, bits>, std::vector<fs::path>> input = get(directory);
     QStringList List;
+    file_data &file_data = file_data.get_instance();
+    file_data._KEYS.clear();
+    file_data._FILES = input;
 
     for (auto row : input) {
+        std::pair<size_t, bits> key = row.first;
         for (auto file : row.second) {
             std::string size = std::to_string(fs::file_size(file));
             std::string name = file.filename();
-            name += (" " + size);
+            file_data._KEYS[name] = key;
             QString QName = QString::fromStdString(name);
             List << QName;
         }

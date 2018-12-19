@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     sha256.cpp \
-    reader.cpp
+    reader.cpp \
+    file_data.cpp
 
 HEADERS += \
         mainwindow.h \
     sha256.h \
-    reader.h
+    reader.h \
+    file_data.h
 
 FORMS += \
         mainwindow.ui

@@ -23,7 +23,7 @@
      <widget class="QListWidget" name="listMainFile"/>
     </item>
     <item>
-     <widget class="QListView" name="listView"/>
+     <widget class="QListWidget" name="listSameFile"/>
     </item>
    </layout>
   </widget>

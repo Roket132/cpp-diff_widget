@@ -1,9 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "reader.h"
+
+#include <QListWidget>
 #include <QMainWindow>
 
 static std::string DIRECTORY_NAME = "";
+
+
 
 namespace Ui {
 class MainWindow;
@@ -20,12 +25,16 @@ public:
 
     void add_Items_Main(QStringList name);
 
+    void add_Items_Same(QStringList name);
+
 private slots:
     void onActiontestTriggered();
 
     void on_Reload_triggered();
 
     void on_Open_triggered();
+
+    void on_listMainFile_itemPressed(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

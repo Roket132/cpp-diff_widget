@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->listSameFile->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->choised_dir->setText("Directory: ");
+    ui->statusBar->addWidget(ui->choised_dir);
 
 }
 
@@ -47,13 +49,18 @@ void MainWindow::add_Items_Same(QStringList list_Name)
 
 void MainWindow::on_Reload_triggered()
 {
-    QProgressBar *bar = new QProgressBar();
-    ui->statusBar->addPermanentWidget(bar);
-    add_Items_Main(read_update(DIRECTORY_NAME, bar));
-    ui->statusBar->removeWidget(bar);
-    delete bar;
-}
+        QProgressBar *bar = new QProgressBar();
+        ui->statusBar->addPermanentWidget(bar);
+    try {
+        add_Items_Main(read_update(DIRECTORY_NAME, bar));
+        ui->statusBar->removeWidget(bar);
+        delete bar;
+    } catch (...) {
+        std::cout << "failed update" << std::endl;
+        delete bar;
+    }
 
+}
 
 void MainWindow::onActiontestTriggered(){}
 
@@ -62,20 +69,17 @@ void MainWindow::on_Open_triggered()
     QString str;
     try {
         str = QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
+        if (str == "") {
+            throw "todo";
+        }
     } catch (...) {
+        std::cout << "stop" << std::endl;
         str = QString::fromStdString(DIRECTORY_NAME);
     }
 
     DIRECTORY_NAME = str.toStdString();
-    if (DIRECTORY_NAME != "") {
-        QProgressBar *bar = new QProgressBar();
-        ui->statusBar->addPermanentWidget(bar);
+    ui->choised_dir->setText("Directory: " + QString::fromStdString(DIRECTORY_NAME));
 
-        add_Items_Main(read(DIRECTORY_NAME, bar));
-
-        ui->statusBar->removeWidget(bar);
-        delete bar;
-    }
 }
 
 void MainWindow::on_listMainFile_itemPressed(QListWidgetItem *item)
@@ -113,3 +117,29 @@ void MainWindow::delete_selected_files()
     delete bar;
 }
 
+
+void MainWindow::on_speed_triggered()
+{
+    if (MODE == 1) {
+        ui->speed->setIcon(QIcon(":/icons/fast"));
+    } else {
+        ui->speed->setIcon(QIcon(":/icons/slow"));
+    }
+    MODE = MODE == 1 ? 2 : 1;
+}
+
+void MainWindow::on_Play_triggered()
+{
+    if (MODE == 1) {
+        QProgressBar *bar = new QProgressBar();
+        ui->statusBar->addPermanentWidget(bar);
+        try {
+            add_Items_Main(read(DIRECTORY_NAME, bar));
+            ui->statusBar->removeWidget(bar);
+            delete bar;
+        } catch (...) {
+            std::cout << "enter directory" << std::endl;
+            delete bar;
+        }
+    }
+}

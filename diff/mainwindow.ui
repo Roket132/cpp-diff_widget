@@ -19,6 +19,13 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="QLabel" name="choised_dir">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QListWidget" name="listSameFile"/>
     </item>
@@ -41,7 +48,9 @@
      <string>Файл</string>
     </property>
     <addaction name="Open"/>
+    <addaction name="Play"/>
     <addaction name="Reload"/>
+    <addaction name="speed"/>
    </widget>
    <addaction name="menudfg"/>
   </widget>
@@ -56,7 +65,9 @@
     <bool>false</bool>
    </attribute>
    <addaction name="Open"/>
+   <addaction name="Play"/>
    <addaction name="Reload"/>
+   <addaction name="speed"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="Reload">
@@ -81,6 +92,27 @@
    </property>
    <property name="toolTip">
     <string>Открыть</string>
+   </property>
+  </action>
+  <action name="speed">
+   <property name="icon">
+    <iconset resource="icon_buttom.qrc">
+     <normaloff>:/icons/slow.png</normaloff>:/icons/slow.png</iconset>
+   </property>
+   <property name="text">
+    <string>Мод</string>
+   </property>
+   <property name="toolTip">
+    <string>Мод</string>
+   </property>
+  </action>
+  <action name="Play">
+   <property name="icon">
+    <iconset resource="icon_buttom.qrc">
+     <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+   </property>
+   <property name="text">
+    <string>Пуск</string>
    </property>
   </action>
  </widget>

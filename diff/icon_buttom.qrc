@@ -3,5 +3,8 @@
         <file>icons/reload.png</file>
         <file>icons/file.png</file>
         <file>icons/gtk-directory.png</file>
+        <file>icons/fast.png</file>
+        <file>icons/slow.png</file>
+        <file>icons/play.png</file>
     </qresource>
 </RCC>

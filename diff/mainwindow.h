@@ -11,6 +11,7 @@
 static std::string DIRECTORY_NAME = "";
 static std::string PRESSED_MAIN = "";
 static QList<QListWidgetItem *> SELECTED_ITEMS;
+static int MODE = 1; // slow;
 
 
 
@@ -39,6 +40,10 @@ private slots:
     void on_Open_triggered();
 
     void on_listMainFile_itemPressed(QListWidgetItem *item);
+
+    void on_speed_triggered();
+
+    void on_Play_triggered();
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);

@@ -15,9 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->listSameFile->setSelectionMode(QAbstractItemView::MultiSelection);
 
-
-    //ui->statusBar->addPermanentWidget(ui->progressBar);
 }
 
 MainWindow::~MainWindow()
@@ -29,7 +28,11 @@ void MainWindow::add_Items_Main(QStringList list_Name)
 {
     ui->listMainFile->clear();
     for (int i = 0; i < list_Name.length(); i++) {
-        ui->listMainFile->addItem(new QListWidgetItem(QIcon(":/icons/file"), list_Name[i]));
+        QListWidgetItem *item = new QListWidgetItem(QIcon(":/icons/file"), list_Name[i]);
+        ui->listMainFile->addItem(item);
+        if (PRESSED_MAIN == list_Name[i].toStdString()) {
+            item->setSelected(true);
+        }
     }
 }
 
@@ -44,9 +47,11 @@ void MainWindow::add_Items_Same(QStringList list_Name)
 
 void MainWindow::on_Reload_triggered()
 {
-    /*if (DIRECTORY_NAME != "") {
-        add_Items_Main(read(DIRECTORY_NAME, ));
-    }*/
+    QProgressBar *bar = new QProgressBar();
+    ui->statusBar->addPermanentWidget(bar);
+    add_Items_Main(read_update(DIRECTORY_NAME, bar));
+    ui->statusBar->removeWidget(bar);
+    delete bar;
 }
 
 
@@ -86,21 +91,25 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     int key = event->key();
     QString str = QString(QChar(key));
-    if (str == Qt::Key_Delete) {
-        std::cout << "GO delete" << std::endl;
-        for (auto it : ui->listSameFile->selectedItems()) {
-            QString QStr = it->text();
-            fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
-            std::cout << del_path << std::endl;
-            fs::remove(del_path);
-        }
-        QProgressBar *bar = new QProgressBar();
-        ui->statusBar->addPermanentWidget(bar);
-
-        add_Items_Main(read_update(DIRECTORY_NAME, bar));
-        add_Items_Same(get_same(PRESSED_MAIN));
-
-        ui->statusBar->removeWidget(bar);
-        delete bar;
+    if (str == Qt::Key_Delete && ui->listSameFile->selectedItems().size() > 0) {
+        delete_selected_files();
     }
 }
+
+void MainWindow::delete_selected_files()
+{
+    for (auto it : ui->listSameFile->selectedItems()) {
+        QString QStr = it->text();
+        fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
+        fs::remove(del_path);
+    }
+    QProgressBar *bar = new QProgressBar();
+    ui->statusBar->addPermanentWidget(bar);
+
+    add_Items_Main(read_update(DIRECTORY_NAME, bar));
+    add_Items_Same(get_same(PRESSED_MAIN));
+
+    ui->statusBar->removeWidget(bar);
+    delete bar;
+}
+

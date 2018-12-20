@@ -38,4 +38,6 @@ QStringList get_same(std::string name);
 
 
 
+
+
 #endif // READER_H

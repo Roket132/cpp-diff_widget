@@ -10,6 +10,7 @@
 
 static std::string DIRECTORY_NAME = "";
 static std::string PRESSED_MAIN = "";
+static QList<QListWidgetItem *> SELECTED_ITEMS;
 
 
 
@@ -43,6 +44,8 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 private:
     Ui::MainWindow *ui;
+
+    void delete_selected_files();
 };
 
 #endif // MAINWINDOW_H

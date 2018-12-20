@@ -30,9 +30,6 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
     int cnt = 0;
     double add_progress = 100.0 / number_of_files_in_directory(directory) * 1.0;
 
-
-    std::cout << number_of_files_in_directory(directory) << std::endl;
-
     file_data& file_data = file_data.get_instance();
     if (!upd) {
         file_data._SHA256.clear();

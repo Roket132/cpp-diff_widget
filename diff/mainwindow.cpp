@@ -77,39 +77,9 @@ void MainWindow::on_listMainFile_itemPressed(QListWidgetItem *item)
 {
     QString QName = item->text();
     std::string name = QName.toStdString();
+    PRESSED_MAIN = name;
 
-    file_data &file_data = file_data.get_instance();
-    std::pair<size_t, bits> key = file_data._KEYS[name];
-    auto row = file_data._FILES[key];
-
-    fs::path item_file;
-    for (auto it : row) {
-        if (it.filename() == name) {
-            item_file = it;
-            break;
-        }
-    }
-
-
-    std::string sha256 = file_data._SHA256[item_file];
-    std::vector<fs::path> same;
-
-    for (auto it : row) {
-        if (it.filename() != name) {
-            std::string sha256_it = file_data._SHA256[it];
-            if (sha256 == sha256_it) {
-                same.push_back(it);
-            }
-        }
-    }
-
-    QStringList List;
-
-    for (auto it : same) {
-        List << QString::fromStdString(it.filename());
-    }
-
-    add_Items_Same(List);
+    add_Items_Same(get_same(PRESSED_MAIN));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -117,13 +87,20 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     int key = event->key();
     QString str = QString(QChar(key));
     if (str == Qt::Key_Delete) {
+        std::cout << "GO delete" << std::endl;
+        for (auto it : ui->listSameFile->selectedItems()) {
+            QString QStr = it->text();
+            fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
+            std::cout << del_path << std::endl;
+            fs::remove(del_path);
+        }
+        QProgressBar *bar = new QProgressBar();
+        ui->statusBar->addPermanentWidget(bar);
 
+        add_Items_Main(read_update(DIRECTORY_NAME, bar));
+        add_Items_Same(get_same(PRESSED_MAIN));
+
+        ui->statusBar->removeWidget(bar);
+        delete bar;
     }
 }
-
-
-
-
-
-
-

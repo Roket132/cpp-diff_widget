@@ -9,6 +9,7 @@
 #include <QKeyEvent>
 
 static std::string DIRECTORY_NAME = "";
+static std::string PRESSED_MAIN = "";
 
 
 

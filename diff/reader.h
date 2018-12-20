@@ -24,11 +24,15 @@ public:
 };
 
 
-std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar);
+std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar, bool upd);
 
-QStringList read(std::string directory, QProgressBar *bar);
+QStringList read(std::string directory, QProgressBar *bar, bool upd = false);
 
-QStringList read(QString directory, QProgressBar *bar);
+QStringList read(QString directory, QProgressBar *bar, bool upd = false);
+
+QStringList read_update(std::string directory, QProgressBar *bar);
+
+QStringList get_same(std::string name);
 
 
 

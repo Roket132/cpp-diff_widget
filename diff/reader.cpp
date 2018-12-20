@@ -23,7 +23,7 @@ std::size_t number_of_files_in_directory(fs::path path)
     return std::distance(fs::recursive_directory_iterator(path), fs::recursive_directory_iterator{});
 }
 
-std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar) {
+std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar, bool upd) {
     std::map<std::pair<size_t, bits>, std::vector<fs::path>> input;
 
 
@@ -34,7 +34,9 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
     std::cout << number_of_files_in_directory(directory) << std::endl;
 
     file_data& file_data = file_data.get_instance();
-    file_data._SHA256.clear();
+    if (!upd) {
+        file_data._SHA256.clear();
+    }
 
     bar->setValue(cnt * add_progress);
 
@@ -45,7 +47,9 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
                 continue;
             }
 
-            file_data._SHA256[path] = sha256_file(path);
+            if (!upd) {
+                file_data._SHA256[path] = sha256_file(path);
+            }
             size_t _size = fs::file_size(path);
 
             std::ifstream in(path, std::ios::in | std::ios::binary);
@@ -73,8 +77,8 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
 }
 
 
-QStringList read(std::string directory, QProgressBar *bar) {
-    std::map<std::pair<size_t, bits>, std::vector<fs::path>> input = get(directory, bar);
+QStringList read(std::string directory, QProgressBar *bar, bool upd) {
+    std::map<std::pair<size_t, bits>, std::vector<fs::path>> input = get(directory, bar, upd);
     QStringList List;
     file_data &file_data = file_data.get_instance();
     file_data._KEYS.clear();
@@ -94,8 +98,49 @@ QStringList read(std::string directory, QProgressBar *bar) {
     return List;
 }
 
-QStringList read(QString directory, QProgressBar *bar)
+QStringList read(QString directory, QProgressBar *bar, bool upd)
 {
     std::string str = directory.toStdString();
-    return read(str, bar);
+    return read(str, bar, upd);
+}
+
+QStringList read_update(std::string directory, QProgressBar *bar)
+{
+    return read(directory, bar, true);
+}
+
+QStringList get_same(std::string name)
+{
+    file_data &file_data = file_data.get_instance();
+    std::pair<size_t, bits> key = file_data._KEYS[name];
+    auto row = file_data._FILES[key];
+
+    fs::path item_file;
+    for (auto it : row) {
+        if (it.filename() == name) {
+            item_file = it;
+            break;
+        }
+    }
+
+
+    std::string sha256 = file_data._SHA256[item_file];
+    std::vector<fs::path> same;
+
+    for (auto it : row) {
+        if (it.filename() != name) {
+            std::string sha256_it = file_data._SHA256[it];
+            if (sha256 == sha256_it) {
+                same.push_back(it);
+            }
+        }
+    }
+
+    QStringList List;
+
+    for (auto it : same) {
+        List << QString::fromStdString(it.filename());
+    }
+
+    return List;
 }

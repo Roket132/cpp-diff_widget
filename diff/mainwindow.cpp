@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+
+    //ui->statusBar->addPermanentWidget(ui->progressBar);
 }
 
 MainWindow::~MainWindow()
@@ -41,9 +44,9 @@ void MainWindow::add_Items_Same(QStringList list_Name)
 
 void MainWindow::on_Reload_triggered()
 {
-    if (DIRECTORY_NAME != "") {
-        add_Items_Main(read(DIRECTORY_NAME));
-    }
+    /*if (DIRECTORY_NAME != "") {
+        add_Items_Main(read(DIRECTORY_NAME, ));
+    }*/
 }
 
 
@@ -60,7 +63,13 @@ void MainWindow::on_Open_triggered()
 
     DIRECTORY_NAME = str.toStdString();
     if (DIRECTORY_NAME != "") {
-        add_Items_Main(read(DIRECTORY_NAME));
+        QProgressBar *bar = new QProgressBar();
+        ui->statusBar->addPermanentWidget(bar);
+
+        add_Items_Main(read(DIRECTORY_NAME, bar));
+
+        ui->statusBar->removeWidget(bar);
+        delete bar;
     }
 }
 
@@ -103,7 +112,14 @@ void MainWindow::on_listMainFile_itemPressed(QListWidgetItem *item)
     add_Items_Same(List);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    int key = event->key();
+    QString str = QString(QChar(key));
+    if (str == Qt::Key_Delete) {
 
+    }
+}
 
 
 

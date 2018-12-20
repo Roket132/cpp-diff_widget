@@ -8,6 +8,7 @@
 #include <map>
 #include <experimental/filesystem>
 #include <QApplication>
+#include <QProgressBar>
 
 namespace fs = std::experimental::filesystem;
 
@@ -23,11 +24,11 @@ public:
 };
 
 
-std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory);
+std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar);
 
-QStringList read(std::string directory);
+QStringList read(std::string directory, QProgressBar *bar);
 
-QStringList read(QString directory);
+QStringList read(QString directory, QProgressBar *bar);
 
 
 

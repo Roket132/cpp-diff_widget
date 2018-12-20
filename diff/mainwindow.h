@@ -5,6 +5,8 @@
 
 #include <QListWidget>
 #include <QMainWindow>
+#include <QProgressBar>
+#include <QKeyEvent>
 
 static std::string DIRECTORY_NAME = "";
 
@@ -27,7 +29,7 @@ public:
 
     void add_Items_Same(QStringList name);
 
-private slots:
+private slots:    
     void onActiontestTriggered();
 
     void on_Reload_triggered();
@@ -36,6 +38,8 @@ private slots:
 
     void on_listMainFile_itemPressed(QListWidgetItem *item);
 
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
 private:
     Ui::MainWindow *ui;
 };

@@ -1,4 +1,5 @@
 #include <cstring>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <fstream>
@@ -138,6 +139,29 @@ std::string sha256(std::string input)
     return std::string(buf);
 }
 
+double log_2(size_t x) {
+    return log(x * 1.0) / log(2);
+}
+
+std::string fast_hash(fs::path path)
+{
+    std::string res = "";
+    std::ifstream in(path, std::ios::in | std::ios::binary);
+
+    size_t file_size = fs::file_size(path);
+    int cnt = std::min(64, int(log_2(file_size)));
+    long long pos = 1;
+
+    for (int i = 1; i <= cnt; i++) {
+        char x;
+        in.seekg(pos);
+        in.read((char *) &x, sizeof (x));
+        pos *= 2;
+        res += x;
+    }
+    return res;
+}
+
 std::string sha256_file(fs::path path)
 {
     unsigned char digest[SHA256::DIGEST_SIZE];
@@ -165,3 +189,10 @@ std::string sha256_file(fs::path path)
         sprintf(buf+i*2, "%02x", digest[i]);
     return std::string(buf);
 }
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@
 #define SHA256_H
 #include <string>
 #include <experimental/filesystem>
+#include <cmath>
 
 namespace fs = std::experimental::filesystem;
 
@@ -31,6 +32,8 @@ protected:
 std::string sha256(std::string input);
 
 std::string sha256_file(fs::path path);
+
+std::string fast_hash(fs::path path);
 
 #define SHA2_SHFR(x, n)    (x >> n)
 #define SHA2_ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))

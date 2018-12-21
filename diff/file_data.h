@@ -20,11 +20,10 @@ public:
     std::map<std::pair<size_t, bits>, std::vector<fs::path>> _FILES;
     std::map<std::string, std::pair<size_t, bits>> _KEYS;
     std::map<fs::path, std::string> _SHA256;
+    std::map<fs::path, std::string> _FAST_HASH;
+    std::map<fs::path, fs::file_time_type> _LAST_MODIF;
 
-    static file_data& get_instance() {
-        static file_data instance;
-        return instance;
-    }
+    static file_data& get_instance();
 };
 
 #endif // FILE_DATA_H

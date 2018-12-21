@@ -46,6 +46,8 @@ private slots:
 
     void on_speed_triggered();
 
+    void on_Delete_triggered();
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 private:

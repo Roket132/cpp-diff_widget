@@ -50,6 +50,7 @@
     <addaction name="Open"/>
     <addaction name="Play"/>
     <addaction name="Reload"/>
+    <addaction name="Delete"/>
     <addaction name="speed"/>
    </widget>
    <addaction name="menudfg"/>
@@ -67,6 +68,7 @@
    <addaction name="Open"/>
    <addaction name="Play"/>
    <addaction name="Reload"/>
+   <addaction name="Delete"/>
    <addaction name="speed"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -113,6 +115,15 @@
    </property>
    <property name="text">
     <string>Пуск</string>
+   </property>
+  </action>
+  <action name="Delete">
+   <property name="icon">
+    <iconset resource="icon_buttom.qrc">
+     <normaloff>:/icons/Delete.png</normaloff>:/icons/Delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Удалить</string>
    </property>
   </action>
  </widget>

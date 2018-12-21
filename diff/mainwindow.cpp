@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->listSameFile->setSelectionMode(QAbstractItemView::MultiSelection);
     ui->choised_dir->setText("Directory: ");
     ui->statusBar->addWidget(ui->choised_dir);
-
 }
 
 MainWindow::~MainWindow()
@@ -116,10 +115,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::delete_selected_files()
 {
-    for (auto it : ui->listSameFile->selectedItems()) {
-        QString QStr = it->text();
-        fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
-        fs::remove(del_path);
+    try {
+        for (auto it : ui->listSameFile->selectedItems()) {
+            QString QStr = it->text();
+            fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
+            fs::remove(del_path);
+        }
+    } catch(fs::filesystem_error e) {
+        std::cout << e.what() << std::endl;
     }
     QProgressBar *bar = new QProgressBar();
     ui->statusBar->addPermanentWidget(bar);
@@ -142,4 +145,9 @@ void MainWindow::on_speed_triggered()
     MODE = (MODE == 1 ? 2 : 1);
 }
 
-
+void MainWindow::on_Delete_triggered()
+{
+    if (ui->listSameFile->selectedItems().size() > 0) {
+        delete_selected_files();
+    }
+}

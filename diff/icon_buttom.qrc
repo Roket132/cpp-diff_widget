@@ -6,5 +6,6 @@
         <file>icons/fast.png</file>
         <file>icons/slow.png</file>
         <file>icons/play.png</file>
+        <file>icons/Delete.png</file>
     </qresource>
 </RCC>

@@ -47,7 +47,7 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
     for (const auto& entry : fs::recursive_directory_iterator(directory)) {
         try {
             fs::path path = entry.path();
-            if (fs::is_directory(path) || fs::is_empty(path) || fs::is_block_file(path)) {
+            if (fs::is_directory(path) || fs::is_block_file(path) || fs::is_symlink(path)) {
                 continue;
             }
 

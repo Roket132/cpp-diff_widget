@@ -79,12 +79,15 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
             std::ifstream in(path, std::ios::in | std::ios::binary);
 
             char x, y, z;
-            in.read((char *) &x, sizeof (x));
-            in.seekg(_size / 2);
-            in.read((char *) &y, sizeof (y));
-            in.seekg(0, in.end);
-            in.read((char *) &z, sizeof (z));
-
+            if (_size < 3) {
+                x = y = z = 0;
+            } else {
+                in.read((char *) &x, sizeof (x));
+                in.seekg(_size / 2);
+                in.read((char *) &y, sizeof (y));
+                in.seekg(0, in.end);
+                in.read((char *) &z, sizeof (z));
+            }
             bits bit(x, y, z);
 
             std::pair<size_t, bits> p(_size, bit);
@@ -106,6 +109,42 @@ std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directo
 }
 
 
+QStringList get_same(std::string name, int mode)
+{
+    file_data &file_data = file_data.get_instance();
+    std::pair<size_t, bits> key = file_data._KEYS[name];
+    auto row = file_data._FILES[key];
+
+    fs::path item_file;
+    for (auto it : row) {
+        if (it == name) {
+            item_file = it;
+            break;
+        }
+    }
+
+    std::string sha256 = (mode == 1 ? file_data._SHA256[item_file] : file_data._FAST_HASH[item_file]);
+    std::vector<fs::path> same;
+
+    for (auto it : row) {
+        if (it != name) {
+            std::string sha256_it = (mode == 1 ? file_data._SHA256[it] : file_data._FAST_HASH[it]);
+            if (sha256 == sha256_it) {
+                same.push_back(it);
+            }
+        }
+    }
+
+    QStringList List;
+
+    for (auto it : same) {
+        List << QString::fromStdString(it);
+    }
+
+    return List;
+}
+
+
 QStringList read(std::string directory, QProgressBar *bar, int mode) {
     std::map<std::pair<size_t, bits>, std::vector<fs::path>> input = get(directory, bar, mode);
     QStringList List;
@@ -117,14 +156,22 @@ QStringList read(std::string directory, QProgressBar *bar, int mode) {
         std::pair<size_t, bits> key = row.first;
         for (auto file : row.second) {
             std::string size = std::to_string(fs::file_size(file));
-            std::string name = file.filename();
+            std::string name = file;
             file_data._KEYS[name] = key;
             QString QName = QString::fromStdString(name);
             List << QName;
         }
     }
 
-    return List;
+    QStringList have_same;
+    for (auto it : List) {
+        auto same = get_same(it.toStdString(), mode);
+        if (same.size() > 0) {
+            have_same.append(it);
+        }
+    }
+
+    return have_same;
 }
 
 QStringList read(QString directory, QProgressBar *bar, int mode)
@@ -138,37 +185,3 @@ QStringList read_update(std::string directory, QProgressBar *bar, int mode)
     return read(directory, bar, mode);
 }
 
-QStringList get_same(std::string name, int mode)
-{
-    file_data &file_data = file_data.get_instance();
-    std::pair<size_t, bits> key = file_data._KEYS[name];
-    auto row = file_data._FILES[key];
-
-    fs::path item_file;
-    for (auto it : row) {
-        if (it.filename() == name) {
-            item_file = it;
-            break;
-        }
-    }
-
-    std::string sha256 = (mode == 1 ? file_data._SHA256[item_file] : file_data._FAST_HASH[item_file]);
-    std::vector<fs::path> same;
-
-    for (auto it : row) {
-        if (it.filename() != name) {
-            std::string sha256_it = (mode == 1 ? file_data._SHA256[it] : file_data._FAST_HASH[it]);
-            if (sha256 == sha256_it) {
-                same.push_back(it);
-            }
-        }
-    }
-
-    QStringList List;
-
-    for (auto it : same) {
-        List << QString::fromStdString(it.filename());
-    }
-
-    return List;
-}

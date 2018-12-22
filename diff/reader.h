@@ -26,16 +26,13 @@ public:
 
 std::map<std::pair<size_t, bits>, std::vector<fs::path>> get(std::string directory, QProgressBar *bar, int mode);
 
+QStringList get_same(std::string name, int mode);
+
 QStringList read(std::string directory, QProgressBar *bar, int mode);
 
 QStringList read(QString directory, QProgressBar *bar, int mode);
 
 QStringList read_update(std::string directory, QProgressBar *bar, int mode);
-
-QStringList get_same(std::string name, int mode);
-
-
-
 
 
 

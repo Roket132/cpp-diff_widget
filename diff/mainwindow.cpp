@@ -100,6 +100,7 @@ void MainWindow::on_listMainFile_itemPressed(QListWidgetItem *item)
     QString QName = item->text();
     std::string name = QName.toStdString();
     PRESSED_MAIN = name;
+    std::cout << PRESSED_MAIN << std::endl;
 
     add_Items_Same(get_same(PRESSED_MAIN, MODE_COMPILED));
 }
@@ -118,7 +119,8 @@ void MainWindow::delete_selected_files()
     try {
         for (auto it : ui->listSameFile->selectedItems()) {
             QString QStr = it->text();
-            fs::path del_path = DIRECTORY_NAME + "/" + QStr.toStdString();
+            fs::path del_path = QStr.toStdString();
+            //std::cout << del_path << std::endl;
             fs::remove(del_path);
         }
     } catch(fs::filesystem_error e) {

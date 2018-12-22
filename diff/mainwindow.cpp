@@ -100,7 +100,7 @@ void MainWindow::on_listMainFile_itemPressed(QListWidgetItem *item)
     QString QName = item->text();
     std::string name = QName.toStdString();
     PRESSED_MAIN = name;
-    std::cout << PRESSED_MAIN << std::endl;
+
 
     add_Items_Same(get_same(PRESSED_MAIN, MODE_COMPILED));
 }
